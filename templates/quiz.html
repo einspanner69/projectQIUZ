@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <!-- Подключаем стили -->
+    <style>
+        /* Общий стиль тела страницы */
+        body {
+            font-family: Montserrat, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Заголовки вопросов */
+        h1, h2 {
+            text-align: center;
+            color: #000000;
+        }
+    
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Оформление номеров вопросов */
+        .question-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            color: black;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Текст вопроса */
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Варианты ответов */
+        .options-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .option-item {
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s ease-in-out;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .option-item:hover {
+            background-color: #dfefff;
+        }
+
+        /* Выбранный вариант ответа */
+        .selected-option {
+            background-color: #000000;
+            color: white;
+        }
+
+        /* Кнопка отправки результатов */
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .submit-button:hover {
+            background-color: #000000;
+        }
+
+        /* Страница результата теста */
+        .result-page {
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .score-container {
+            font-size: 24px;
+            color: black;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ quiz_title }}</h1>
+    <form method="post" action="/quiz">
+        {% for question in questions %}
+        <div class="question-container">
+            <strong>Вопрос №{{ loop.index }}:</strong> {{ question.question_text }}            <ul class="options-list">
+                {% for option in question.options %}
+                    <li class="option-item">
+                        <input type="radio" name="q{{ question.id }}" id="q{{ question.id }}_{{ loop.index }}" value="{{ option }}" required>
+                        <label for="q{{ question.id }}_{{ loop.index }}">{{ option }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Завершить опрос</button>
+    </form>
+</div>
+</body>
+</html>
